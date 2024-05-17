@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Class</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+        }
+
+        #live-class {
+            width: 100%;
+            padding-top: 56.25%;
+            position: relative;
+        }
+
+        #live-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #emoji-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .emoji-button {
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #comments {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+        }
+
+        #comment-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #send-comment {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #comment-list {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .comment {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        #emoji-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Live Class</h1>
+    </header>
+    <main>
+        <div id="live-class">
+            <iframe id="live-video" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div id="controls">
+            <div id="emoji-container">
+                <button class="emoji-button">😊</button>
+                <button class="emoji-button">😢</button>
+                <button class="emoji-button">👍</button>
+                <button class="emoji-button">👎</button>
+            </div>
+            <div id="comments">
+                <textarea id="comment-box" placeholder="Type your comment..."></textarea>
+                <button id="send-comment">Send</button>
+                <div id="comment-list"></div>
+            </div>
+        </div>
+    </main>
+    <div id="emoji-display"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const emojiButtons = document.querySelectorAll('.emoji-button');
+            const emojiDisplay = document.getElementById('emoji-display');
+            const commentBox = document.getElementById('comment-box');
+            const sendCommentButton = document.getElementById('send-comment');
+            const commentList = document.getElementById('comment-list');
+
+            emojiButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const emoji = button.textContent;
+                    showEmoji(emoji);
+                });
+            });
+
+            sendCommentButton.addEventListener('click', () => {
+                const comment = commentBox.value;
+                if (comment.trim()) {
+                    addComment(comment);
+                    commentBox.value = '';
+                }
+            });
+
+            function showEmoji(emoji) {
+                emojiDisplay.textContent = emoji;
+                emojiDisplay.style.display = 'block';
+                setTimeout(() => {
+                    emojiDisplay.style.display = 'none';
+                }, 2000);
+            }
+
+            function addComment(comment) {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.textContent = comment;
+                commentList.appendChild(commentElement);
+            }
+        });
+    </script>
+</body>
+</html>
